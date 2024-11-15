@@ -9,7 +9,7 @@ import {PokemonsService} from '../../pokemons/services/pokemons.service';
 import {SimplePokemon} from '../../pokemons/interfaces';
 import {ActivatedRoute, Router} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {first, map, tap} from 'rxjs';
+import {delay, first, map, tap} from 'rxjs';
 import {Title} from '@angular/platform-browser';
 
 @Component({
@@ -40,7 +40,7 @@ export default class PokemonsPageComponent implements OnInit{
   )
 
 
- // public isLoading = signal<boolean>(true);
+ // public isLoading = signal<boolean>(false);
 
  // private appRef = inject(ApplicationRef);
 
@@ -50,19 +50,19 @@ export default class PokemonsPageComponent implements OnInit{
 
  ngOnInit() {
 
-   this.loadPokemons();
+   this.loadPokemons(0);
    /*setTimeout(() => {
      this.isLoading.set(false);
    }, 5000);*/
  }
 
- loadPokemons(page = 0) {
+ loadPokemons(page: number) {
    const pageToLoad = this.currentPage()! + page;
 
    this.pokemonsService.loadPage(pageToLoad)
      .pipe(
        tap(() => this.router.navigate([], { queryParams: { page: pageToLoad}})),
-       tap(() => this.title.setTitle(`Pokemons SSR - Page ${ pageToLoad }`)),
+       tap(() => this.title.setTitle(`Pokémons SSR - Page ${ pageToLoad }`)),
        first()
      )
      .subscribe(pokemons => {

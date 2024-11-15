@@ -1,10 +1,12 @@
 import {Component, computed, input} from '@angular/core';
 import {SimplePokemon} from '../../interfaces';
+import {RouterLink} from '@angular/router';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'pokemon-card',
   standalone: true,
-  imports: [],
+  imports: [RouterLink, NgOptimizedImage],
   templateUrl: './pokemon-card.component.html',
   styles: ``
 })

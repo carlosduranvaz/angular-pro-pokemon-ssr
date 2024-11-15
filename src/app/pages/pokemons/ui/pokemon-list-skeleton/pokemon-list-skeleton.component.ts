@@ -13,5 +13,5 @@ import {
   styles: ``
 })
 export class PokemonListSkeletonComponent {
-
+  public grid = new Array(20);
 }
