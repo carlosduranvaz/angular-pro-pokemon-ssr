@@ -10,11 +10,12 @@ export class PokemonsService {
   private http = inject(HttpClient);
 
   public loadPage(page: number): Observable<SimplePokemon[]> {
-    if ( page !== 0 ) {
+    if (page !== 0) {
       --page;
     }
-
     page = Math.max(0, page);
+
+    console.log('Page', page)
 
     return this.http.get<PokeAPIResponse>(`https://pokeapi.co/api/v2/pokemon?offset=${ page * 20 }&limit=20`)
       .pipe(

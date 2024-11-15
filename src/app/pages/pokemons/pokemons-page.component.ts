@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnInit, signal} from '@angular/core';
+import {Component, effect, inject, signal} from '@angular/core';
 import {
   PokemonListComponent
 } from '../../pokemons/components/pokemon-list/pokemon-list.component';
@@ -7,7 +7,7 @@ import {
 } from './ui/pokemon-list-skeleton/pokemon-list-skeleton.component';
 import {PokemonsService} from '../../pokemons/services/pokemons.service';
 import {SimplePokemon} from '../../pokemons/interfaces';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {first, map, tap} from 'rxjs';
 import {Title} from '@angular/platform-browser';
@@ -28,7 +28,6 @@ export default class PokemonsPageComponent {
   private pokemonsService: PokemonsService = inject(PokemonsService);
   public pokemons = signal<SimplePokemon[]>([]);
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private title = inject(Title);
 
   public currentPage = toSignal<number>(
@@ -45,12 +44,11 @@ export default class PokemonsPageComponent {
     this.loadPokemons(this.currentPage()!);
   }, { allowSignalWrites: true });
 
- loadPokemons(page: number) {
-   const pageToLoad = this.currentPage()! + page;
-
-   this.pokemonsService.loadPage(pageToLoad)
+ loadPokemons(page: number = 0) {
+   console.log('page', page)
+   this.pokemonsService.loadPage(page)
      .pipe(
-       tap(() => this.title.setTitle(`Pokémons SSR - Page ${ pageToLoad }`)),
+       tap(() => this.title.setTitle(`Pokémons SSR - Page ${ page }`)),
        first()
      )
      .subscribe(pokemons => {
